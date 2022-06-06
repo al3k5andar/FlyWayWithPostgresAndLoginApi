@@ -1,0 +1,1 @@
+insert into users (username, email, password, user_status) values ('admin','admin@admin.com', '$2a$12$Aj2NUqZjtIiSkjiS6OK5FujEuUC0KMfkRFw/VODX/RnzyvJSmSd62','ACTIVE');
