@@ -1,15 +1,11 @@
 package com.example.migrationwithpostgres.data.model.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @AllArgsConstructor
-public class LoginUserResponse {
+public class ErrorResponse {
 
-    private Long id;
-    private String accessToken;
-    private String refreshToken;
+    private String message;
 }

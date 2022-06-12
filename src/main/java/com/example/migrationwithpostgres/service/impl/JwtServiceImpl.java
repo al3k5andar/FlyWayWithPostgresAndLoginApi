@@ -15,21 +15,17 @@ public class JwtServiceImpl implements JwtService {
     @Value(value = "${secret-value}")
     private String secret;
 
-    @Value(value = "${jwt-token-expiration}")
-    private String tokenExpiration;
-
-//    Create new token with secret
     @Override
-    public String createJwt(Long userId) {
+    public String createJwt(Long userId, String tokenExpiration) {
         Algorithm algorithm= Algorithm.HMAC256(secret.getBytes(StandardCharsets.UTF_8));
         return JWT.create()
                 .withSubject(String.valueOf(userId))
-                .withExpiresAt(getTokenExpiration())
+                .withExpiresAt(getTokenExpiration(Long.parseLong(tokenExpiration)))
                 .sign(algorithm);
     }
 
 //    Set token expiration
-    private Date getTokenExpiration(){
-        return new Date(System.currentTimeMillis()+ Long.parseLong(tokenExpiration) * 60 * 1000);
+    private Date getTokenExpiration(Long tokenExpiration){
+        return new Date(System.currentTimeMillis()+ tokenExpiration * 60 * 1000);
     }
 }

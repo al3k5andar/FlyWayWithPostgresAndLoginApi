@@ -1,12 +1,33 @@
 package com.example.migrationwithpostgres.usecase;
 
 import com.example.migrationwithpostgres.data.model.request.LoginUserRequest;
-import com.example.migrationwithpostgres.data.model.response.ResponseWrapper;
-import org.springframework.http.ResponseEntity;
+import com.example.migrationwithpostgres.data.model.response.LoginUserResponse;
+import com.example.migrationwithpostgres.service.AppUserService;
+import com.example.migrationwithpostgres.service.JwtService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-public interface LoginUseCaseService {
+@RequiredArgsConstructor
+@Service
+public class LoginUseCaseService implements UseCaseService<LoginUserResponse, LoginUserRequest> {
 
-    String createUserJwt(String username);
+    private final AppUserService appUserService;
+    private final JwtService jwtService;
 
-    ResponseEntity<ResponseWrapper> createResponse(LoginUserRequest userRequest);
+    @Value("${jwt.expiration.access-token}")
+    private String accessTokenDuration;
+
+    @Value("${jwt.expiration.refresh-token}")
+    private String refreshTokenDuration;
+
+    public LoginUserResponse execute(LoginUserRequest userRequest){
+        Long userId= appUserService.getRequestedUserId(userRequest);
+
+        return LoginUserResponse.builder()
+                .id(userId)
+                .accessToken(jwtService.createJwt(userId, accessTokenDuration))
+                .refreshToken(jwtService.createJwt(userId, refreshTokenDuration))
+                .build();
+    }
 }

@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/userdb
     username: postgres
-    password: postgres
+    password: password
   jpa:
     properties:
       hibernate:
@@ -17,4 +17,7 @@ spring:
     table: history_table
 
 secret-value: secretValue
-jwt-token-expiration: 20
+jwt:
+  expiration:
+    access-token: 60
+    refresh-token: 480

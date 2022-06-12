@@ -7,7 +7,5 @@ import lombok.Getter;
 @Builder
 public class ResponseWrapper {
 
-    private int statusCode;
-    private String message;
     private Object data;
 }
