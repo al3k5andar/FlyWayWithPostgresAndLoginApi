@@ -1,7 +1,6 @@
 package com.example.migrationwithpostgres.data.dao.security;
 
 import com.example.migrationwithpostgres.data.entity.AppUser;
-import com.example.migrationwithpostgres.data.entity.Role;
 import com.example.migrationwithpostgres.data.entity.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,18 +19,10 @@ public class AppUserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority> authorities= appUser.getRoles()
+        return appUser.getRoles()
                 .stream()
-                .flatMap(role -> {
-                    return role.getPermissions().stream();
-                })
-                .map(permission -> {
-                    return new SimpleGrantedAuthority(permission.getName());
-                }).collect(Collectors.toList());
-        for(Role r: appUser.getRoles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+ r.getName().toUpperCase()));
-        }
-        return authorities;
+                .map(role -> new SimpleGrantedAuthority("ROLE_"+ role.getName().toUpperCase()))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -7,7 +7,6 @@ spring:
     properties:
       hibernate:
         show_sql: true
-        format_sql: true
         default_schema: userdb
     hibernate:
       ddl-auto: validate

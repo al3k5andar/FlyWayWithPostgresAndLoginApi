@@ -3,9 +3,8 @@ package com.example.migrationwithpostgres.service;
 import com.example.migrationwithpostgres.data.dao.AppUserDao;
 import com.example.migrationwithpostgres.data.entity.AppUser;
 import com.example.migrationwithpostgres.data.model.request.LoginUserRequest;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface AppUserService extends UserDetailsService {
+public interface AppUserService {
 
     AppUserDao findByUsername(String username);
 

@@ -1,7 +1,6 @@
 package com.example.migrationwithpostgres.service.impl;
 
 import com.example.migrationwithpostgres.data.dao.AppUserDao;
-import com.example.migrationwithpostgres.data.dao.security.AppUserDetailsImpl;
 import com.example.migrationwithpostgres.data.entity.AppUser;
 import com.example.migrationwithpostgres.data.entity.UserStatus;
 import com.example.migrationwithpostgres.data.model.request.LoginUserRequest;
@@ -11,8 +10,6 @@ import com.example.migrationwithpostgres.exceptions.ResourceNotFoundException;
 import com.example.migrationwithpostgres.exceptions.UserNotActivatedException;
 import com.example.migrationwithpostgres.service.AppUserService;
 import com.example.migrationwithpostgres.utils.GlobalModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,16 +38,8 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser getAppUserById(Long id) {
-        AppUser appUser= appUserRepository.findById(id)
+        return appUserRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id: "+ id + " is not found."));
-        return appUser;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser= getUserByUsername(username);
-
-        return new AppUserDetailsImpl(appUser);
     }
 
     @Override

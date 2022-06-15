@@ -1,8 +1,9 @@
-package com.example.migrationwithpostgres.controllers;
+package com.example.migrationwithpostgres.controllers.handler;
 
 import com.example.migrationwithpostgres.data.model.response.ErrorResponse;
 import com.example.migrationwithpostgres.exceptions.BadUserCredentialsException;
 import com.example.migrationwithpostgres.exceptions.ResourceNotFoundException;
+import com.example.migrationwithpostgres.exceptions.TokenNotFoundException;
 import com.example.migrationwithpostgres.exceptions.UserNotActivatedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,10 @@ public class GlobalExceptionHandlerController {
     @ExceptionHandler(BadUserCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadUserCredentialsException(BadUserCredentialsException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTokenNotFoundException(TokenNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ErrorResponse(exception.getMessage()));
     }
 }

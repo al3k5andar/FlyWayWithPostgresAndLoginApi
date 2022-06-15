@@ -24,11 +24,6 @@ public class AppUser {
     private UserStatus userStatus;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
+    @OneToMany(mappedBy = "appUser", fetch = FetchType.EAGER)
     private Set<Role> roles;
 }
